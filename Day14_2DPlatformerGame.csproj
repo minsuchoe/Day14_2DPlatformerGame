@@ -285,10 +285,12 @@
     <Compile Include="Assets\FallingDown.cs" />
     <Compile Include="Assets\IdleCoin.cs" />
     <Compile Include="Assets\PickupCoin.cs" />
+    <Compile Include="Assets\PlatformFall.cs" />
     <Compile Include="Assets\PlayerController.cs" />
     <Compile Include="Assets\Reset.cs" />
     <Compile Include="Assets\SpawnCoins.cs" />
     <Compile Include="Assets\SpawnPlatforms.cs" />
+    <Compile Include="Assets\UpAndDownAnim.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

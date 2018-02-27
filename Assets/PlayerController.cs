@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
     public float maxSpeed = 5f;
     public float jumpForce = 1000f;
     public Transform groundCheck;
+    public bool platformIgnoreJump = false;
 
     bool grounded = false;
     Animator anim;
@@ -27,14 +28,18 @@ public class PlayerController : MonoBehaviour {
         // 0001 0000 0000 0000 == 1 << 12
         // 0001 1000 0000 0000 == 1 << 12 | 1 << 11
 
-        grounded = Physics2D.Linecast(transform.position,
-                                      groundCheck.position,
-                                      1 << LayerMask.NameToLayer("Ground"));    //Ground의 Layer Index는 12
+        //grounded = Physics2D.Linecast(transform.position,
+        //                              groundCheck.position,
+        //                              1 << LayerMask.NameToLayer("Ground"));    //Ground의 Layer Index는 12
+
+        RaycastHit2D hit = Physics2D.Linecast(transform.position,
+                                              groundCheck.position,
+                                              1 << LayerMask.NameToLayer("Ground"));
+        grounded = hit.collider != null;
 
         if (Input.GetButtonDown("Jump") && grounded)
-        {
-            jump = true;
-        }
+            jump = true;           
+        
 	}
 
     private void FixedUpdate()
@@ -58,6 +63,13 @@ public class PlayerController : MonoBehaviour {
             rb.AddForce(new Vector2(0f, jumpForce));
             jump = false;
         }
+
+        if (platformIgnoreJump)
+        {
+            Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"),
+                                           LayerMask.NameToLayer("Ground"),
+                                           rb.velocity.y >= 0);
+        }
     }
 
     void Flip()
@@ -67,5 +79,4 @@ public class PlayerController : MonoBehaviour {
         theScale.x *= -1;
         transform.localScale = theScale;
     }
-
 }
